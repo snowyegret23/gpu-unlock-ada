@@ -1,6 +1,10 @@
 # GPU unlock 1.1.1 — RTX 4090, RTX 4070 Ti SUPER and RTX 4060 Ti 16GB
 
-New to this project? Start with the [copy-paste Quick Start](QUICKSTART.md).
+[English](README.md) | [한국어](README.ko.md)
+
+For Linux, start with the [copy-paste Quick Start](QUICKSTART.md).
+For the AD103 Windows port, read the [English](windows/ad103-msi/README.md) or
+[한국어](windows/ad103-msi/README.ko.md) guide before using its profile-bound tools.
 
 This Linux kernel module enables the SM speed-select override before the stock
 NVIDIA driver starts. RTX 4090 (`10de:2684`, AD102) support has demonstrated
@@ -62,7 +66,37 @@ profile; it does **not** add AD104 admission to the Linux module. See the
 binaries or automatic boot installer are distributed. Contribution by **Latence.app**;
 original upstream credits and licences are retained.
 
-## Supported targets
+## Experimental Windows AD103 port
+
+This fork adds a [guarded RTX 4070 Ti SUPER AD103 Windows UEFI port](windows/ad103-msi/README.md)
+with read-only diagnostics, captured ROM preservation, automatic entry and
+reversible one-time/every-boot scheduling. A reviewed platform profile is required;
+a model or PCI ID match alone does not establish compatibility.
+
+One v0.3.0 run completed driver release, the GPU transaction, one FLR, DMA cleanup
+and Windows handoff. Matched three-process cuBLAS 4096×4096 GEMM medians were:
+
+| Mode | Stock TFLOP/s | After TFLOP/s | Change |
+|---|---:|---:|---:|
+| FP32 | 30.34 | 30.37 | +0.1% |
+| FP16 with FP32 accumulation | 87.03 | 145.67 | +67.4% |
+| BF16 with FP32 accumulation | 86.63 | 143.97 | +66.2% |
+
+Numerical checks and all 18 output hashes matched. These are short GEMM results;
+image generation, local language models, mixed workloads, games and long-term
+stability were not measured. See the [measurement summary](docs/evidence/ad103-windows/summary.json)
+and [build/validation record](docs/evidence/ad103-windows/validation.json).
+
+On a validated installation, `enable-auto` selects the EFI before Windows at each
+boot; it waits ten seconds and attempts once without input. S/Esc skips that boot,
+and `disable-auto` restores the saved boot order. A post-mutation failure halts;
+simply powering on again with persistent mode enabled would start another attempt.
+The code changes volatile GPU state, not the VBIOS EEPROM. Every-boot configuration
+was read back, but repeated cold/warm execution and physical recovery remain
+unverified. The [port guide](windows/ad103-msi/README.md) explains prerequisites,
+bypass, disable and recovery. Linux target admission and the AD104 port are unchanged.
+
+## Linux targets
 
 The module selects the AD102 firmware and payload automatically for RTX 4090
 `10de:2684`. The original GeForce/CMP GA102/GA104 device list and GA102 payload
@@ -99,13 +133,13 @@ application is needed. The payload uses instruction addresses derived from
 published decrypted debug-booter analysis; the production booter is authenticated
 and decrypted inside the GPU.
 
-## Build and install
+## Linux build and install
 
 Clone the GPL-2.0-only source and build the packages locally so the pinned
 NVIDIA firmware is downloaded and generated on your own machine:
 
 ```sh
-git clone https://github.com/JustAResearcher/gpu-unlock-ada.git
+git clone https://github.com/snowyegret23/gpu-unlock-ada.git
 cd gpu-unlock-ada
 make install
 ```
@@ -136,7 +170,7 @@ The source archive produced by `make dist`, the Debian source package and the
 [firmware/README.md](firmware/README.md) for the input and asset layout.
 Prebuilt firmware packages are not distributed by this repository.
 
-## Enable at boot
+## Enable at boot (Linux)
 
 The package installs the module and firmware into the initramfs so the unlock
 runs before NVIDIA binds the card. It remains inactive unless the kernel
@@ -201,7 +235,7 @@ removed just before FLR, and the display stays blank until `nvidia-drm` takes
 over. Display handoff and multi-card operation were not part of the RTX 4090
 validation.
 
-## Check and disable
+## Check and disable (Linux)
 
 Inspect the kernel log after boot:
 
