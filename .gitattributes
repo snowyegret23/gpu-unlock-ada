@@ -38,3 +38,8 @@
 /docs/evidence/ad104-windows/** -text whitespace=cr-at-eol,-blank-at-eof
 /windows/ad104-msi/benchmark.py -text
 /windows/ad104-msi/vendor/edk2/** -text whitespace=cr-at-eol,-blank-at-eof
+
+# Preserve the reviewed AD103 source bytes used by build/capture hash bindings.
+/windows/ad103-msi/** -text whitespace=cr-at-eol
+/windows/ad103-msi/uefi/vendor/** -whitespace
+/README.ko.md -export-ignore

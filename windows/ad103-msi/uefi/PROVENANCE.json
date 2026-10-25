@@ -1,0 +1,10 @@
+{
+  "repository": "https://github.com/JustAResearcher/gpu-unlock-ada",
+  "commit": "4e7fefcc4923f9e083d5324dc75a7d2f906af77f",
+  "diagnostic_source": "windows/ad104-msi/diagnostic",
+  "headers_source": "windows/ad104-msi/vendor/edk2",
+  "local_target": "MSI RTX 4070 Ti SUPER 10de:2705 / 1462:513d with a reviewed platform profile",
+  "changes": "Exact AD103 diagnostic target, captured Windows BAR0 binding, exact GPT partition binding for internal EFI logging. No unlock implementation or GPU writes in this diagnostic.",
+  "ad103_chip_reference": "https://huggingface.co/TOTORONG/AD103_win_unlocker/blob/51df9c17ec89eb8486df52cc9079dde4bd1f9974/source/profile.json",
+  "hardware_tested": false
+}

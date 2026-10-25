@@ -34,3 +34,11 @@ Module.symvers
 *.exe
 *.obj
 *.a
+
+# AD103 Windows port: machine profiles, captures and local build inputs
+/windows/ad103-msi/local/
+/windows/ad103-msi/_external/
+/windows/ad103-msi/_analysis/
+/windows/ad103-msi/emergency/
+/windows/ad103-msi/**/build/
+/windows/ad103-msi/**/*.pdb

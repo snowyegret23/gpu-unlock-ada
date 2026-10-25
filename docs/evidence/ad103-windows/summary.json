@@ -1,0 +1,89 @@
+{
+  "schema": 1,
+  "gpu_family": "RTX 4070 Ti SUPER / AD103",
+  "scope": "One observed Windows return after EFI 0.3.0, followed by matched short GEMM measurements.",
+  "workload": {
+    "operation": "cuBLAS GEMM",
+    "shape": [
+      4096,
+      4096,
+      4096
+    ],
+    "processes_per_phase": 3,
+    "samples_per_mode": 15,
+    "products_per_sample": 5,
+    "warmup_seconds_per_mode": 1.0,
+    "seed": 20261024
+  },
+  "controlled_between_phases": [
+    "same GPU",
+    "same NVIDIA driver and VBIOS",
+    "same benchmark script and libraries",
+    "same configured power limit"
+  ],
+  "benchmark_source": "windows/ad104-msi/benchmark.py",
+  "measured_benchmark_sha256": "c13f10eacd82d91022fddb751ed9b711db3056a2de8e2f8e680658b356c0741f",
+  "published_benchmark_sha256": "605b6d4e952689270fd825e764ec74d664bd7362bf91a41ddff5e6e866e82a70",
+  "benchmark_source_difference": "Measured checkout uses CRLF, published source uses LF; bytes are identical after newline normalization. Both measured phases used the same unchanged CRLF script.",
+  "comparisons": [
+    {
+      "mode": "fp32_pedantic",
+      "before_tflops": 30.339916957779007,
+      "after_tflops": 30.371800185629038,
+      "change_percent": 0.10508673406852687,
+      "before_run_tflops": [
+        30.94000206012846,
+        30.339916957779007,
+        30.32757655714028
+      ],
+      "after_run_tflops": [
+        30.872880819557942,
+        30.371800185629038,
+        30.212885961091555
+      ]
+    },
+    {
+      "mode": "fp16_fp32",
+      "before_tflops": 87.03004235570621,
+      "after_tflops": 145.6671698030889,
+      "change_percent": 67.3757312534941,
+      "before_run_tflops": [
+        87.03004235570621,
+        87.04132775666551,
+        86.78314459688893
+      ],
+      "after_run_tflops": [
+        143.64054226798555,
+        146.42998252561733,
+        145.6671698030889
+      ]
+    },
+    {
+      "mode": "bf16_fp32",
+      "before_tflops": 86.62561414505254,
+      "after_tflops": 143.97374826555978,
+      "change_percent": 66.20228287730134,
+      "before_run_tflops": [
+        86.63784698354173,
+        86.62561414505254,
+        85.09873724412596
+      ],
+      "after_run_tflops": [
+        140.2236863109848,
+        143.97374826555978,
+        144.97486000068795
+      ]
+    }
+  ],
+  "numerical_checks_passed": true,
+  "all_18_output_hashes_identical": true,
+  "output_sha256": "0e3b4c1a854bc95d06fb91f688b1f4f739fe7e76972c889fa1bbeb042ac7c1bc",
+  "limitations": [
+    "One observed successful two-child hardware run, not repeated boot qualification.",
+    "Background activity and thermal state were not perfectly controlled.",
+    "Whole-application image/text generation, mixed workloads and games were not measured.",
+    "Long-duration stability and physical restoration were not tested.",
+    "Every-boot configuration was verified by variable readback; no additional boot was performed."
+  ],
+  "evidence_form": "Derived numerical summary. Private raw captures, machine identifiers and environment inventory are not included."
+}
